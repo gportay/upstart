@@ -102,6 +102,40 @@ install-data-hook:
 else
 EXTRA_DIST = \
 	man/upstart-udev-bridge.8
+
+dist_init_DATA += \
+	conf/upstart-uevent-bridge.conf
+
+dist_man_MANS += \
+	man/upstart-uevent-bridge.8
+
+sbin_PROGRAMS += \
+	upstart-uevent-bridge
+
+upstart_uevent_bridge_SOURCES = \
+	upstart-uevent-bridge.c
+nodist_upstart_uevent_bridge_SOURCES = \
+	$(com_ubuntu_Upstart_OUTPUTS)
+upstart_uevent_bridge_LDADD = \
+	$(LTLIBINTL) \
+	$(NIH_LIBS) \
+	$(NIH_DBUS_LIBS) \
+	$(DBUS_LIBS)
+
+install-data-hook:
+	src=`echo upstart-uevent-bridge| sed '$(transform)'`.8; \
+	for symlink in \
+		net-device-added \
+		net-device-removed \
+		graphics-device-added \
+		drm-device-added; do \
+	  inst=`echo $$symlink | sed '$(transform)'`.7; \
+          echo " ln -sf '$(man8dir)/$$src' '$(DESTDIR)$(man7dir)/$$inst'"; \
+	  ln -sf "$(man8dir)/$$src" "$(DESTDIR)$(man7dir)/$$inst"; \
+	done
+
+EXTRA_DIST = \
+	man/upstart-uevent-bridge.8
 endif
 
 

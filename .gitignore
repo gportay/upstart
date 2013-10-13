@@ -27,6 +27,7 @@ extra/upstart-event-bridge
 extra/upstart-file-bridge
 extra/upstart-socket-bridge
 extra/upstart-udev-bridge
+extra/upstart-uevent-bridge
 init/com.ubuntu.Upstart.Instance.c
 init/com.ubuntu.Upstart.Instance.h
 init/com.ubuntu.Upstart.Job.c
