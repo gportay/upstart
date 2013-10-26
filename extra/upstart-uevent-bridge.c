@@ -233,6 +233,8 @@ netlink_monitor_watcher (struct nl_context_t *context,
 	context->msg.msg_flags = 0;
 
 	while (len = recvmsg(context->fd, &context->msg, 0)) {
+		unsigned long int initialized = 0;
+
 		if (len == -1 && (errno == EWOULDBLOCK || errno == EAGAIN)) {
 			break;
 		}
@@ -284,12 +286,18 @@ netlink_monitor_watcher (struct nl_context_t *context,
 			} else if (! strncmp (k, "SUBSYSTEM", sizeof("SUBSYSTEM") - 1)) {
 				subsystem = v;
 				subsystem_var = k;
+			} else if (! strncmp (k, "USEC_INITIALIZED", sizeof("USEC_INITIALIZED") - 1)) {
+				initialized = strtol (v, NULL, 0);
 			}
 			
 			nih_debug ("%s\n", s);
 		}
 
 		if (! action) {
+			return;
+		}
+
+		if (! initialized) {
 			return;
 		}
 	
