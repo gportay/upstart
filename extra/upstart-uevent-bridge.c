@@ -332,9 +332,6 @@ netlink_monitor_watcher (struct nl_context_t *context,
 			var = NIH_MUST (nih_strdup (NULL, devname_var));
 			NIH_MUST (nih_str_array_addp (&env, NULL, &env_len, var));
 		}
-		else {
-			continue;
-		}
 
 		if (subsystem) {
 			nih_local char *var = NULL;
