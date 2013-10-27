@@ -187,7 +187,7 @@ netlink_monitor_watcher (struct nl_context_t *context,
 		      NihIoWatch *         watch,
 		      NihIoEvents          events)
 {
-	char                    buf[4096];
+	char                    buf[2048];
 	char *                  n = NULL;
 	char *                  s = NULL;
 	struct iovec            iov = { buf, sizeof(buf) };
