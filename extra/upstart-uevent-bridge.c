@@ -280,6 +280,10 @@ netlink_monitor_watcher (struct nl_context_t *context,
 			nih_debug ("%s\n", s);
 		}
 
+		if ((ssize_t) (n - buf) < (len-1)) {
+			return;
+		}
+
 		if (! action) {
 			return;
 		}
