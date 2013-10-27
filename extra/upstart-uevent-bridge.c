@@ -60,8 +60,6 @@ static void netlink_monitor_watcher (struct nl_context_t *context,
 static void upstart_disconnected (DBusConnection *connection);
 static void emit_event_error     (void *data, NihDBusMessage *message);
 
-static char *make_safe_string    (const void *parent, const char *original);
-
 /**
  * daemonise:
  *
@@ -78,14 +76,6 @@ static int daemonise = FALSE;
 static NihDBusProxy *upstart = NULL;
 
 /**
- * no_strip_udev_data:
- *
- * If TRUE, do not modify any udev message data (old behaviour).
- * If FALSE, use make_safe_string () to cleanse udev strings.
- **/
-static int no_strip_udev_data = FALSE;
-
-/**
  * options:
  *
  * Command-line options accepted by this program.
@@ -93,8 +83,6 @@ static int no_strip_udev_data = FALSE;
 static NihOption options[] = {
 	{ 0, "daemon", N_("Detach and run in the background"),
 	  NULL, NULL, &daemonise, NULL },
-	{ 0, "no-strip", N_("Do not strip non-printable bytes from udev message data"),
-	  NULL, NULL, &no_strip_udev_data, NULL },
 
 	NIH_OPTION_LAST
 };
@@ -221,7 +209,6 @@ netlink_monitor_watcher (struct nl_context_t *context,
 	const char *            value = NULL;
 	size_t                  env_len = 0;
 	DBusPendingCall *       pending_call;
-	char                 *(*copy_string)(const void *, const char *) = NULL;
 	
 	
 	context->msg.msg_name = &context->addr;
