@@ -246,7 +246,7 @@ netlink_monitor_watcher (struct nl_context_t *context,
 			s += l + 1;
 		}
 	
-		while ((n = strchr(s, 0)) && n < &buf[len]) {
+		while (((ssize_t) (n - buf) < (len-1)) && (n = strchr (s, 0))) {
 			char *k = NULL;
 			char *v = NULL;
 			
