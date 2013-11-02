@@ -33,13 +33,15 @@ sbin_PROGRAMS = \
 	upstart-event-bridge \
 	upstart-file-bridge \
 	upstart-dbus-bridge \
-	upstart-local-bridge
+	upstart-local-bridge \
+	upstart-avahi-bridge
 
 dist_init_DATA = \
 	conf/upstart-socket-bridge.conf \
 	conf/upstart-event-bridge.conf \
 	conf/upstart-file-bridge.conf \
-	conf/upstart-dbus-bridge.conf
+	conf/upstart-dbus-bridge.conf \
+	conf/upstart-avahi-bridge.conf
 
 dist_man_MANS = \
 	man/upstart-socket-bridge.8 \
@@ -47,6 +49,7 @@ dist_man_MANS = \
 	man/upstart-file-bridge.8 \
 	man/upstart-dbus-bridge.8 \
 	man/upstart-local-bridge.8 \
+	man/upstart-avahi-bridge.8 \
 	man/socket-event.7 \
 	man/file-event.7 \
 	man/dbus-event.7
@@ -138,6 +141,17 @@ dist_init_DATA += \
 
 dist_man_MANS += \
 	man/upstart-udev-bridge.8
+
+upstart_avahi_bridge_SOURCES = \
+	upstart-avahi-bridge.c
+nodist_upstart_avahi_bridge_SOURCES = \
+	$(com_ubuntu_Upstart_OUTPUTS) \
+	$(com_ubuntu_Upstart_Job_OUTPUTS)
+upstart_avahi_bridge_LDADD = \
+	$(LTLIBINTL) \
+	$(NIH_LIBS) \
+	$(NIH_DBUS_LIBS) \
+	$(DBUS_LIBS)
 
 if ENABLE_UDEV_BRIDGE
 sbin_PROGRAMS += \
