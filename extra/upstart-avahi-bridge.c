@@ -162,30 +162,11 @@ static const NihDBusArg org_freedesktop_Avahi_Server_Type_Browser_ItemRemove_sig
 };
 
 /**
- * org_freedesktop_Avahi_Server_Type_Browser_CacheExhausted_signal_args:
- *
- * Arguments list for CacheExhausted signal.
- */
-static const NihDBusArg org_freedesktop_Avahi_Server_Type_Browser_CacheExhausted_signal_args[] = {
-	{ NULL }
-};
-
-/**
  * org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal_args:
  *
  * Arguments list for AllForNow signal.
  */
 static const NihDBusArg org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal_args[] = {
-	{ NULL }
-};
-
-/**
- * org_freedesktop_Avahi_Server_Type_Browser_Failure_signal_args:
- *
- * Arguments list for Failure signal.
- */
-static const NihDBusArg org_freedesktop_Avahi_Server_Type_Browser_Failure_signal_args[] = {
-	{ "error", "s", NIH_DBUS_ARG_OUT },
 	{ NULL }
 };
 
@@ -309,58 +290,6 @@ org_freedesktop_Avahi_Server_Type_Browser_ItemRemove_signal (
 }
 
 static DBusHandlerResult
-org_freedesktop_Avahi_Server_Type_Browser_CacheExhausted_signal (
-		DBusConnection     *connection,
-		DBusMessage        *signal,
-		NihDBusProxySignal *proxied)
-{
-	NihDBusMessage *message;
-	DBusError       error;
-	char           *name;
-	const char     *name_dbus;
-	char          **env;
-	DBusMessageIter env_iter;
-	size_t          env_size;
-
-	nih_assert (connection != NULL);
-	nih_assert (signal != NULL);
-	nih_assert (proxied != NULL);
-	nih_assert (connection == proxied->proxy->connection);
-
-	if (! dbus_message_is_signal (signal, proxied->interface->name, proxied->signal->name))
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	if (! dbus_message_has_path (signal, proxied->proxy->path))
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	if (proxied->proxy->name)
-		if (! dbus_message_has_sender (signal, proxied->proxy->owner))
-			return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	message = nih_dbus_message_new (NULL, connection, signal);
-	if (! message)
-		return DBUS_HANDLER_RESULT_NEED_MEMORY;
-
-	/* Iterate the arguments to the signal and demarshal into arguments
-	 * for our own function call.
-	 */
-	dbus_error_init (&error);
-
-	if (! dbus_message_get_args(message->message, &error,
-				    DBUS_TYPE_INVALID)) {
-		dbus_error_free (&error);
-		nih_free (message);
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-	}
-
-	dbus_error_free (&error);
-
-	nih_free (message);
-
-	return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-}
-
-static DBusHandlerResult
 org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal (
 		DBusConnection     *connection,
 		DBusMessage        *signal,
@@ -416,60 +345,11 @@ org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal (
 	return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 }
 
-static DBusHandlerResult
-org_freedesktop_Avahi_Server_Type_Browser_Failure_signal (
-		DBusConnection     *connection,
-		DBusMessage        *signal,
-		NihDBusProxySignal *proxied)
-{
-	NihDBusMessage *message;
-	DBusError       error;
-
-	nih_assert (connection != NULL);
-	nih_assert (signal != NULL);
-	nih_assert (proxied != NULL);
-	nih_assert (connection == proxied->proxy->connection);
-
-	if (! dbus_message_is_signal (signal, proxied->interface->name, proxied->signal->name))
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	if (! dbus_message_has_path (signal, proxied->proxy->path))
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	if (proxied->proxy->name)
-		if (! dbus_message_has_sender (signal, proxied->proxy->owner))
-			return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	message = nih_dbus_message_new (NULL, connection, signal);
-	if (! message)
-		return DBUS_HANDLER_RESULT_NEED_MEMORY;
-
-	/* Iterate the arguments to the signal and demarshal into arguments
-	 * for our own function call.
-	 */
-	dbus_error_init (&error);
-
-	if (! dbus_message_get_args(message->message, &error,
-				    DBUS_TYPE_INVALID)) {
-		dbus_error_free (&error);
-		nih_free (message);
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-	}
-
-	dbus_error_free (&error);
-
-	nih_free (message);
-
-	return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-}
-
 // org.freedesktop.Avahi.ServiceTypeBrowser
 static const NihDBusSignal org_freedesktop_Avahi_ServiceTypeBrowser_signals[] = {
 	{ "ItemNew",        org_freedesktop_Avahi_Server_Type_Browser_ItemNew_signal_args,        org_freedesktop_Avahi_Server_Type_Browser_ItemNew_signal        },
 	{ "ItemRemove",     org_freedesktop_Avahi_Server_Type_Browser_ItemRemove_signal_args,     org_freedesktop_Avahi_Server_Type_Browser_ItemRemove_signal     },
-	{ "CacheExhausted", org_freedesktop_Avahi_Server_Type_Browser_CacheExhausted_signal_args, org_freedesktop_Avahi_Server_Type_Browser_CacheExhausted_signal },
 	{ "AllForNow",      org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal_args,      org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal      },
-	{ "Failure",        org_freedesktop_Avahi_Server_Type_Browser_Failure_signal_args,        org_freedesktop_Avahi_Server_Type_Browser_Failure_signal        },
 	{ NULL }
 };
 
@@ -506,16 +386,7 @@ static const NihDBusArg org_freedesktop_Avahi_Server_Browser_ItemRemove_signal_a
 	{ NULL }
 };
 
-static const NihDBusArg org_freedesktop_Avahi_Server_Browser_CacheExhausted_signal_args[] = {
-	{ NULL }
-};
-
 static const NihDBusArg org_freedesktop_Avahi_Server_Browser_AllForNow_signal_args[] = {
-	{ NULL }
-};
-
-static const NihDBusArg org_freedesktop_Avahi_Server_Browser_Failure_signal_args[] = {
-	{ "error", "s", NIH_DBUS_ARG_OUT },
 	{ NULL }
 };
 
@@ -650,58 +521,6 @@ org_freedesktop_Avahi_Server_Browser_ItemRemove_signal (
 }
 
 static DBusHandlerResult
-org_freedesktop_Avahi_Server_Browser_CacheExhausted_signal (
-		DBusConnection     *connection,
-		DBusMessage        *signal,
-		NihDBusProxySignal *proxied)
-{
-	NihDBusMessage *message;
-	DBusError       error;
-	char           *name;
-	const char     *name_dbus;
-	char          **env;
-	DBusMessageIter env_iter;
-	size_t          env_size;
-
-	nih_assert (connection != NULL);
-	nih_assert (signal != NULL);
-	nih_assert (proxied != NULL);
-	nih_assert (connection == proxied->proxy->connection);
-
-	if (! dbus_message_is_signal (signal, proxied->interface->name, proxied->signal->name))
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	if (! dbus_message_has_path (signal, proxied->proxy->path))
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	if (proxied->proxy->name)
-		if (! dbus_message_has_sender (signal, proxied->proxy->owner))
-			return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	message = nih_dbus_message_new (NULL, connection, signal);
-	if (! message)
-		return DBUS_HANDLER_RESULT_NEED_MEMORY;
-
-	/* Iterate the arguments to the signal and demarshal into arguments
-	 * for our own function call.
-	 */
-	dbus_error_init (&error);
-
-	if (! dbus_message_get_args(message->message, &error,
-				    DBUS_TYPE_INVALID)) {
-		dbus_error_free (&error);
-		nih_free (message);
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-	}
-
-	dbus_error_free (&error);
-
-	nih_free (message);
-
-	return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-}
-
-static DBusHandlerResult
 org_freedesktop_Avahi_Server_Browser_AllForNow_signal (
 		DBusConnection     *connection,
 		DBusMessage        *signal,
@@ -749,60 +568,11 @@ org_freedesktop_Avahi_Server_Browser_AllForNow_signal (
 	return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 }
 
-static DBusHandlerResult
-org_freedesktop_Avahi_Server_Browser_Failure_signal (
-		DBusConnection     *connection,
-		DBusMessage        *signal,
-		NihDBusProxySignal *proxied)
-{
-	NihDBusMessage *message;
-	DBusError       error;
-
-	nih_assert (connection != NULL);
-	nih_assert (signal != NULL);
-	nih_assert (proxied != NULL);
-	nih_assert (connection == proxied->proxy->connection);
-
-	if (! dbus_message_is_signal (signal, proxied->interface->name, proxied->signal->name))
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	if (! dbus_message_has_path (signal, proxied->proxy->path))
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	if (proxied->proxy->name)
-		if (! dbus_message_has_sender (signal, proxied->proxy->owner))
-			return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-	message = nih_dbus_message_new (NULL, connection, signal);
-	if (! message)
-		return DBUS_HANDLER_RESULT_NEED_MEMORY;
-
-	/* Iterate the arguments to the signal and demarshal into arguments
-	 * for our own function call.
-	 */
-	dbus_error_init (&error);
-
-	if (! dbus_message_get_args(message->message, &error,
-				    DBUS_TYPE_INVALID)) {
-		dbus_error_free (&error);
-		nih_free (message);
-		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-	}
-
-	dbus_error_free (&error);
-
-	nih_free (message);
-
-	return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-}
-
 // org.freedesktop.Avahi.ServiceBrowser
 static const NihDBusSignal org_freedesktop_Avahi_ServiceBrowser_signals[] = {
 	{ "ItemNew",        org_freedesktop_Avahi_Server_Browser_ItemNew_signal_args,        org_freedesktop_Avahi_Server_Browser_ItemNew_signal        },
 	{ "ItemRemove",     org_freedesktop_Avahi_Server_Browser_ItemRemove_signal_args,     org_freedesktop_Avahi_Server_Browser_ItemRemove_signal     },
-	{ "CacheExhausted", org_freedesktop_Avahi_Server_Browser_CacheExhausted_signal_args, org_freedesktop_Avahi_Server_Browser_CacheExhausted_signal },
 	{ "AllForNow",      org_freedesktop_Avahi_Server_Browser_AllForNow_signal_args,      org_freedesktop_Avahi_Server_Browser_AllForNow_signal      },
-	{ "Failure",        org_freedesktop_Avahi_Server_Browser_Failure_signal_args,        org_freedesktop_Avahi_Server_Browser_Failure_signal        },
 	{ NULL }
 };
 
@@ -820,15 +590,6 @@ const NihDBusInterface org_freedesktop_Avahi_ServiceBrowser = {
 };
 
 // org.freedesktop.Avahi.Server
-static const NihDBusArg org_freedesktop_Avahi_Server_DomainBrowserNew_method_args[] = {
-	{ "interface", "i", NIH_DBUS_ARG_OUT },
-	{ "protocol",  "i", NIH_DBUS_ARG_OUT },
-	{ "domain",    "s", NIH_DBUS_ARG_OUT },
-	{ "type",      "i", NIH_DBUS_ARG_OUT },
-	{ "flags",     "u", NIH_DBUS_ARG_OUT },
-	{ NULL }
-};
-
 static const NihDBusArg org_freedesktop_Avahi_Server_ServiceTypeBrowserNew_method_args[] = {
 	{ "interface", "i", NIH_DBUS_ARG_OUT },
 	{ "protocol",  "i", NIH_DBUS_ARG_OUT },
@@ -846,30 +607,16 @@ static const NihDBusArg org_freedesktop_Avahi_Server_ServiceBrowserNew_method_ar
 	{ NULL }
 };
 
-static const NihDBusArg org_freedesktop_Avahi_Server_RecordBrowserNew_method_args[] = {
-	{ "interface", "i", NIH_DBUS_ARG_OUT },
-	{ "protocol",  "i", NIH_DBUS_ARG_OUT },
-	{ "name",      "s", NIH_DBUS_ARG_OUT },
-	{ "clazz",     "q", NIH_DBUS_ARG_OUT },
-	{ "type",      "q", NIH_DBUS_ARG_OUT },
-	{ "flags",     "u", NIH_DBUS_ARG_OUT },
-	{ NULL }
-};
-
 static const NihDBusMethod org_freedesktop_Avahi_Server_methods[] = {
-	{ "DomainBrowserNew",      org_freedesktop_Avahi_Server_DomainBrowserNew_method_args,      NULL },
 	{ "ServiceTypeBrowserNew", org_freedesktop_Avahi_Server_ServiceTypeBrowserNew_method_args, NULL },
 	{ "ServiceBrowserNew",     org_freedesktop_Avahi_Server_ServiceBrowserNew_method_args,     NULL },
-	{ "RecordBrowserNew",      org_freedesktop_Avahi_Server_RecordBrowserNew_method_args,      NULL },
 	{ NULL }
 };
 
 static const NihDBusSignal org_freedesktop_Avahi_Server_signals[] = {
 	{ "ItemNew",        org_freedesktop_Avahi_Server_Browser_ItemNew_signal_args,        org_freedesktop_Avahi_Server_Browser_ItemNew_signal        },
 	{ "ItemRemove",     org_freedesktop_Avahi_Server_Browser_ItemRemove_signal_args,     org_freedesktop_Avahi_Server_Browser_ItemRemove_signal     },
-	{ "CacheExhausted", org_freedesktop_Avahi_Server_Browser_CacheExhausted_signal_args, org_freedesktop_Avahi_Server_Browser_CacheExhausted_signal },
 	{ "AllForNow",      org_freedesktop_Avahi_Server_Browser_AllForNow_signal_args,      org_freedesktop_Avahi_Server_Browser_AllForNow_signal      },
-	{ "Failure",        org_freedesktop_Avahi_Server_Browser_Failure_signal_args,        org_freedesktop_Avahi_Server_Browser_Failure_signal        },
 	{ NULL }
 };
 
@@ -1023,21 +770,6 @@ main (int   argc,
 
 	if (! nih_dbus_proxy_connect (avahi_type_browser,
 			  &org_freedesktop_Avahi_ServiceTypeBrowser,
-			  "CacheExhausted",
-			  (NihDBusSignalHandler)upstart_forward_event, NULL)) {
-		NihError *err;
-
-		err = nih_error_get ();
-		nih_fatal ("%s: %s",
-			_("Could not create CacheExhausted signal connection"),
-			err->message);
-		nih_free (err);
-
-		exit (1);
-	}
-
-	if (! nih_dbus_proxy_connect (avahi_type_browser,
-			  &org_freedesktop_Avahi_ServiceTypeBrowser,
 			  "AllForNow",
 			  (NihDBusSignalHandler)upstart_forward_event, NULL)) {
 		NihError *err;
@@ -1045,21 +777,6 @@ main (int   argc,
 		err = nih_error_get ();
 		nih_fatal ("%s: %s",
 			   _("Could not create AllForNow signal connection"),
-			   err->message);
-		nih_free (err);
-
-		exit (1);
-	}
-
-	if (! nih_dbus_proxy_connect (avahi_type_browser,
-			  &org_freedesktop_Avahi_ServiceTypeBrowser,
-			  "Failure",
-			  (NihDBusSignalHandler)upstart_forward_event, NULL)) {
-		NihError *err;
-
-		err = nih_error_get ();
-		nih_fatal ("%s: %s",
-			   _("Could not create Failure signal connection"),
 			   err->message);
 		nih_free (err);
 
@@ -1651,22 +1368,6 @@ avahi_create_browser_proxy (const char *type,
 
 	if (! nih_dbus_proxy_connect (proxy,
 			  &org_freedesktop_Avahi_ServiceBrowser,
-			  "CacheExhausted",
-			  (NihDBusSignalHandler)upstart_forward_event, NULL)) {
-		NihError *err;
-
-		err = nih_error_get ();
-		nih_fatal ("%s: %s",
-			   _("Could not create CacheExhausted signal connection"),
-			   err->message);
-		nih_free (err);
-		nih_free (proxy);
-
-		return NULL;
-	}
-
-	if (! nih_dbus_proxy_connect (proxy,
-			  &org_freedesktop_Avahi_ServiceBrowser,
 			  "AllForNow",
 			  (NihDBusSignalHandler)upstart_forward_event, NULL)) {
 		NihError *err;
@@ -1674,22 +1375,6 @@ avahi_create_browser_proxy (const char *type,
 		err = nih_error_get ();
 		nih_fatal ("%s: %s",
 			   _("Could not create AllForNow signal connection"),
-			   err->message);
-		nih_free (err);
-		nih_free (proxy);
-
-		return NULL;
-	}
-
-	if (! nih_dbus_proxy_connect (proxy,
-			  &org_freedesktop_Avahi_ServiceBrowser,
-			  "Failure",
-			  (NihDBusSignalHandler)upstart_forward_event, NULL)) {
-		NihError *err;
-
-		err = nih_error_get ();
-		nih_fatal ("%s: %s",
-			   _("Could not create Failure signal connection"),
 			   err->message);
 		nih_free (err);
 		nih_free (proxy);
