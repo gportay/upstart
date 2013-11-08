@@ -134,11 +134,11 @@ static NihOption options[] = {
 
 
 /**
- * org_freedesktop_Avahi_Server_Type_Browser_ItemNew_signal_args:
+ * org_freedesktop_Avahi_Service_Type_Browser_ItemNew_signal_args:
  *
  * Arguments list for ItemNew signal.
  */
-static const NihDBusArg org_freedesktop_Avahi_Server_Type_Browser_ItemNew_signal_args[] = {
+static const NihDBusArg org_freedesktop_Avahi_Service_Type_Browser_ItemNew_signal_args[] = {
 	{ "interface", "i", NIH_DBUS_ARG_OUT },
 	{ "protocol",  "i", NIH_DBUS_ARG_OUT },
 	{ "type",      "s", NIH_DBUS_ARG_OUT },
@@ -148,11 +148,11 @@ static const NihDBusArg org_freedesktop_Avahi_Server_Type_Browser_ItemNew_signal
 };
 
 /**
- * org_freedesktop_Avahi_Server_Type_Browser_ItemRemove_signal_args:
+ * org_freedesktop_Avahi_Service_Type_Browser_ItemRemove_signal_args:
  *
  * Arguments list for ItemRemove signal.
  */
-static const NihDBusArg org_freedesktop_Avahi_Server_Type_Browser_ItemRemove_signal_args[] = {
+static const NihDBusArg org_freedesktop_Avahi_Service_Type_Browser_ItemRemove_signal_args[] = {
 	{ "interface", "i", NIH_DBUS_ARG_OUT },
 	{ "protocol",  "i", NIH_DBUS_ARG_OUT },
 	{ "type",      "s", NIH_DBUS_ARG_OUT },
@@ -162,16 +162,16 @@ static const NihDBusArg org_freedesktop_Avahi_Server_Type_Browser_ItemRemove_sig
 };
 
 /**
- * org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal_args:
+ * org_freedesktop_Avahi_Service_Type_Browser_AllForNow_signal_args:
  *
  * Arguments list for AllForNow signal.
  */
-static const NihDBusArg org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal_args[] = {
+static const NihDBusArg org_freedesktop_Avahi_Service_Type_Browser_AllForNow_signal_args[] = {
 	{ NULL }
 };
 
 static DBusHandlerResult
-org_freedesktop_Avahi_Server_Type_Browser_ItemNew_signal (
+org_freedesktop_Avahi_Service_Type_Browser_ItemNew_signal (
 		DBusConnection     *connection,
 		DBusMessage        *signal,
 		NihDBusProxySignal *proxied)
@@ -233,7 +233,7 @@ org_freedesktop_Avahi_Server_Type_Browser_ItemNew_signal (
 }
 
 static DBusHandlerResult
-org_freedesktop_Avahi_Server_Type_Browser_ItemRemove_signal (
+org_freedesktop_Avahi_Service_Type_Browser_ItemRemove_signal (
 		DBusConnection     *connection,
 		DBusMessage        *signal,
 		NihDBusProxySignal *proxied)
@@ -290,7 +290,7 @@ org_freedesktop_Avahi_Server_Type_Browser_ItemRemove_signal (
 }
 
 static DBusHandlerResult
-org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal (
+org_freedesktop_Avahi_Service_Type_Browser_AllForNow_signal (
 		DBusConnection     *connection,
 		DBusMessage        *signal,
 		NihDBusProxySignal *proxied)
@@ -347,9 +347,9 @@ org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal (
 
 // org.freedesktop.Avahi.ServiceTypeBrowser
 static const NihDBusSignal org_freedesktop_Avahi_ServiceTypeBrowser_signals[] = {
-	{ "ItemNew",        org_freedesktop_Avahi_Server_Type_Browser_ItemNew_signal_args,        org_freedesktop_Avahi_Server_Type_Browser_ItemNew_signal        },
-	{ "ItemRemove",     org_freedesktop_Avahi_Server_Type_Browser_ItemRemove_signal_args,     org_freedesktop_Avahi_Server_Type_Browser_ItemRemove_signal     },
-	{ "AllForNow",      org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal_args,      org_freedesktop_Avahi_Server_Type_Browser_AllForNow_signal      },
+	{ "ItemNew",        org_freedesktop_Avahi_Service_Type_Browser_ItemNew_signal_args,        org_freedesktop_Avahi_Service_Type_Browser_ItemNew_signal        },
+	{ "ItemRemove",     org_freedesktop_Avahi_Service_Type_Browser_ItemRemove_signal_args,     org_freedesktop_Avahi_Service_Type_Browser_ItemRemove_signal     },
+	{ "AllForNow",      org_freedesktop_Avahi_Service_Type_Browser_AllForNow_signal_args,      org_freedesktop_Avahi_Service_Type_Browser_AllForNow_signal      },
 	{ NULL }
 };
 
@@ -366,7 +366,7 @@ const NihDBusInterface org_freedesktop_Avahi_ServiceTypeBrowser = {
 	org_freedesktop_Avahi_ServiceTypeBrowser_properties
 };
 
-static const NihDBusArg org_freedesktop_Avahi_Server_Browser_ItemNew_signal_args[] = {
+static const NihDBusArg org_freedesktop_Avahi_Service_Browser_ItemNew_signal_args[] = {
 	{ "interface", "i", NIH_DBUS_ARG_OUT },
 	{ "protocol",  "i", NIH_DBUS_ARG_OUT },
 	{ "name",      "s", NIH_DBUS_ARG_OUT },
@@ -376,7 +376,7 @@ static const NihDBusArg org_freedesktop_Avahi_Server_Browser_ItemNew_signal_args
 	{ NULL }
 };
 
-static const NihDBusArg org_freedesktop_Avahi_Server_Browser_ItemRemove_signal_args[] = {
+static const NihDBusArg org_freedesktop_Avahi_Service_Browser_ItemRemove_signal_args[] = {
 	{ "interface", "i", NIH_DBUS_ARG_OUT },
 	{ "protocol",  "i", NIH_DBUS_ARG_OUT },
 	{ "name",      "s", NIH_DBUS_ARG_OUT },
@@ -386,12 +386,12 @@ static const NihDBusArg org_freedesktop_Avahi_Server_Browser_ItemRemove_signal_a
 	{ NULL }
 };
 
-static const NihDBusArg org_freedesktop_Avahi_Server_Browser_AllForNow_signal_args[] = {
+static const NihDBusArg org_freedesktop_Avahi_Service_Browser_AllForNow_signal_args[] = {
 	{ NULL }
 };
 
 static DBusHandlerResult
-org_freedesktop_Avahi_Server_Browser_ItemNew_signal (
+org_freedesktop_Avahi_Service_Browser_ItemNew_signal (
 		DBusConnection     *connection,
 		DBusMessage        *signal,
 		NihDBusProxySignal *proxied)
@@ -456,7 +456,7 @@ org_freedesktop_Avahi_Server_Browser_ItemNew_signal (
 }
 
 static DBusHandlerResult
-org_freedesktop_Avahi_Server_Browser_ItemRemove_signal (
+org_freedesktop_Avahi_Service_Browser_ItemRemove_signal (
 		DBusConnection     *connection,
 		DBusMessage        *signal,
 		NihDBusProxySignal *proxied)
@@ -521,7 +521,7 @@ org_freedesktop_Avahi_Server_Browser_ItemRemove_signal (
 }
 
 static DBusHandlerResult
-org_freedesktop_Avahi_Server_Browser_AllForNow_signal (
+org_freedesktop_Avahi_Service_Browser_AllForNow_signal (
 		DBusConnection     *connection,
 		DBusMessage        *signal,
 		NihDBusProxySignal *proxied)
@@ -570,9 +570,9 @@ org_freedesktop_Avahi_Server_Browser_AllForNow_signal (
 
 // org.freedesktop.Avahi.ServiceBrowser
 static const NihDBusSignal org_freedesktop_Avahi_ServiceBrowser_signals[] = {
-	{ "ItemNew",        org_freedesktop_Avahi_Server_Browser_ItemNew_signal_args,        org_freedesktop_Avahi_Server_Browser_ItemNew_signal        },
-	{ "ItemRemove",     org_freedesktop_Avahi_Server_Browser_ItemRemove_signal_args,     org_freedesktop_Avahi_Server_Browser_ItemRemove_signal     },
-	{ "AllForNow",      org_freedesktop_Avahi_Server_Browser_AllForNow_signal_args,      org_freedesktop_Avahi_Server_Browser_AllForNow_signal      },
+	{ "ItemNew",        org_freedesktop_Avahi_Service_Browser_ItemNew_signal_args,        org_freedesktop_Avahi_Service_Browser_ItemNew_signal        },
+	{ "ItemRemove",     org_freedesktop_Avahi_Service_Browser_ItemRemove_signal_args,     org_freedesktop_Avahi_Service_Browser_ItemRemove_signal     },
+	{ "AllForNow",      org_freedesktop_Avahi_Service_Browser_AllForNow_signal_args,      org_freedesktop_Avahi_Service_Browser_AllForNow_signal      },
 	{ NULL }
 };
 
@@ -610,13 +610,6 @@ static const NihDBusArg org_freedesktop_Avahi_Server_ServiceBrowserNew_method_ar
 static const NihDBusMethod org_freedesktop_Avahi_Server_methods[] = {
 	{ "ServiceTypeBrowserNew", org_freedesktop_Avahi_Server_ServiceTypeBrowserNew_method_args, NULL },
 	{ "ServiceBrowserNew",     org_freedesktop_Avahi_Server_ServiceBrowserNew_method_args,     NULL },
-	{ NULL }
-};
-
-static const NihDBusSignal org_freedesktop_Avahi_Server_signals[] = {
-	{ "ItemNew",        org_freedesktop_Avahi_Server_Browser_ItemNew_signal_args,        org_freedesktop_Avahi_Server_Browser_ItemNew_signal        },
-	{ "ItemRemove",     org_freedesktop_Avahi_Server_Browser_ItemRemove_signal_args,     org_freedesktop_Avahi_Server_Browser_ItemRemove_signal     },
-	{ "AllForNow",      org_freedesktop_Avahi_Server_Browser_AllForNow_signal_args,      org_freedesktop_Avahi_Server_Browser_AllForNow_signal      },
 	{ NULL }
 };
 
