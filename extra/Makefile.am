@@ -170,6 +170,7 @@ else
 EXTRA_DIST += \
 	upstart-udev-bridge.c \
 	man/upstart-udev-bridge.8
+endif
 
 dist_init_DATA += \
 	conf/upstart-uevent-bridge.conf
@@ -177,6 +178,7 @@ dist_init_DATA += \
 dist_man_MANS += \
 	man/upstart-uevent-bridge.8
 
+if ENABLE_NETLINK_BRIDGE
 sbin_PROGRAMS += \
 	upstart-uevent-bridge
 
@@ -202,7 +204,9 @@ install-data-hook:
 	  ln -sf "$(man8dir)/$$src" "$(DESTDIR)$(man7dir)/$$inst"; \
 	done
 
-EXTRA_DIST = \
+else
+EXTRA_DIST += \
+	upstart-uevent-bridge.c \
 	man/upstart-uevent-bridge.8
 endif
 

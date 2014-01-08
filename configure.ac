@@ -41,6 +41,13 @@ AC_ARG_ENABLE([udev-bridge],
 
 AM_CONDITIONAL([ENABLE_UDEV_BRIDGE], [test "$have_udev" = yes && test "$udev_bridge" = yes])
 
+AC_ARG_ENABLE([netlink-bridge],
+	AS_HELP_STRING([--enable-netlink-bridge],
+		[Enable building of upstart-uevent-bridge even if required dependencies available]),
+		[netlink_bridge=yes], [netlink_bridge=no])
+
+AM_CONDITIONAL([ENABLE_NETLINK_BRIDGE], [test "$netlink_bridge" = yes])
+
 AC_ARG_ENABLE([dconf-bridge],
 	AS_HELP_STRING([--disable-dconf-bridge],
 		[Disable building of upstart-dconf-bridge even if required dependencies available]),
