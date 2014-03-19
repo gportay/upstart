@@ -55,6 +55,7 @@ m4
 missing
 po/Makevars.template
 po/POTFILES
+scripts/pyupstart.py
 scripts/data/upstart-monitor.svg
 stamp-h1
 util/com.ubuntu.Upstart.Instance.c
